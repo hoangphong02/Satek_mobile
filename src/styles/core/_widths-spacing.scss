@@ -1,0 +1,48 @@
+@for $i from 0 through 99 {
+  .w-#{$i} {
+    width: calc($i * 1%) !important;
+  }
+}
+
+.w-xs-100 {
+  @include respond-below(sm) {
+    width: 100% !important;
+  }
+}
+
+.w-sm-100 {
+  @include respond-below(md) {
+    width: 100% !important;
+  }
+}
+
+.r-0 {
+  right: 0;
+}
+
+.l-0 {
+  left: 0;
+}
+
+.depth-1 {
+  @include depth(1);
+}
+
+.depth-2 {
+  @include depth(2);
+}
+
+.min-width-zero {
+  min-width: 0;
+}
+
+.mb-5,
+.my-5 {
+  margin-bottom: 2rem !important;
+}
+
+.float-none-xs {
+  @include respond-below(xs) {
+    float: initial !important;
+  }
+}

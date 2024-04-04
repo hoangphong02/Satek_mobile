@@ -1,0 +1,42 @@
+.login {
+  &-btn {
+    @include respond-below(xs) {
+      width: 100%;
+    }
+    @include respond-below(xl) {
+      padding: 5px;
+    }
+    @include respond-below(lg) {
+      padding: 10px 20px;
+    }
+    &__layouts {
+      display: flex;
+      @include respond-above(lg) {
+        flex-direction: row !important;
+      }
+      @include respond-below(lg) {
+        flex-direction: column;
+        gap: 10px 0;
+      }
+      & .label {
+        @include respond-below(xl) {
+          font-size: 12px;
+        }
+        @include respond-below(lg) {
+          font-size: 14px;
+          padding: 0;
+        }
+      }
+    }
+  }
+}
+
+.rc-anchor-normal {
+  width: 100px !important;
+}
+
+.important {
+  font-size: 14px;
+  font-weight: 700;
+  max-width: 100%;
+}

@@ -1,0 +1,54 @@
+#loading {
+  .loading-inner {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    img {
+      width: 200px;
+      height: 50%;
+      object-fit: contain;
+    }
+  }
+
+  .loading-progress {
+    height: 2px;
+    width: 190px;
+    position: relative;
+    transition: all 0.5s ease-out;
+
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 30px;
+      background-color: var(--theme-color-1);
+      transition: all 0.5s ease-out;
+      animation: loading 1s ease-in-out infinite;
+    }
+
+    @keyframes loading {
+      from {
+        width: 0;
+        margin-left: 0;
+      }
+
+      50% {
+        width: 100%;
+        margin-left: 0;
+      }
+
+      to {
+        width: 0;
+        margin-left: 100%;
+      }
+    }
+  }
+}

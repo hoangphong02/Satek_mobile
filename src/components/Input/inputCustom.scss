@@ -1,0 +1,13 @@
+.input-custom {
+    &.disabled {
+      // background-color: #e9ecef;
+      // opacity: 1;
+    }
+    &-date {
+        input[type="tel"] {
+            text-transform: uppercase;
+            position: relative;
+            width: 100%;
+          }
+    }
+}

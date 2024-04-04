@@ -1,0 +1,29 @@
+.chart-container {
+  // min-height: 300px;
+  // max-height: 500px;
+  height: 400px;
+}
+.chart-container-title-content{
+  display: flex;
+  // justify-content: space-between;
+  align-items: center;
+  gap: 0 20px;
+  @media (max-width: 767px) {
+    flex-direction: column;
+  }
+}
+.chart-container-title{
+  text-transform: uppercase;
+  font-size: 20px;
+  font-weight: bold;
+  color: black;
+}
+
+.rtl {
+  .chart {
+    direction: ltr;
+    canvas {
+      direction: rtl;
+    }
+  }
+}

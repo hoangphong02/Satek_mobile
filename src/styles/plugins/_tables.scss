@@ -1,0 +1,112 @@
+.table {
+  color: $primary-color;
+}
+table.is-loading {
+  pointer-events: none !important;
+}
+.table tbody tr {
+  cursor: pointer;
+}
+.table th,
+.table td {
+  border-color: $border-hover-custom !important;
+}
+
+.table .thead-light th {
+  background-color: $border-hover-custom !important;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: $border-hover-custom !important;
+}
+
+.rtl {
+  table.dataTable thead > tr > th.sorting_asc,
+  table.dataTable thead > tr > th.sorting_desc,
+  table.dataTable thead > tr > th.sorting,
+  table.dataTable thead > tr > td.sorting_asc,
+  table.dataTable thead > tr > td.sorting_desc,
+  table.dataTable thead > tr > td.sorting {
+    padding-right: 0;
+    padding-left: 30px;
+  }
+
+  table.dataTable thead .sorting:before,
+  table.dataTable thead .sorting_asc:before,
+  table.dataTable thead .sorting_asc_disabled:before,
+  table.dataTable thead .sorting_desc:before,
+  table.dataTable thead .sorting_desc_disabled:before {
+    right: initial;
+    left: 2em;
+  }
+
+  table.dataTable thead .sorting:after,
+  table.dataTable thead .sorting_asc:after,
+  table.dataTable thead .sorting_asc_disabled:after,
+  table.dataTable thead .sorting_desc:after,
+  table.dataTable thead .sorting_desc_disabled:after {
+    right: initial;
+    left: 1.5em;
+  }
+}
+.table-custom-wrapper {
+  max-height: 500px;
+  overflow-y: auto;
+  position: relative;
+}
+
+.table-custom-wrapper table thead {
+  position: sticky;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+
+  th {
+    border: 0 !important;
+  }
+}
+.table-scroll-y-custom {
+  overflow-y: auto;
+  // margin: 0 -1.75rem !important;
+  // padding: 0 1.75rem !important;
+  // padding: 0 !important;
+  position: relative;
+
+  @media (max-width: 575px) {
+    // margin: 0 -1.25rem !important;
+    // padding: 0 1.25rem !important;
+    padding: 0 !important;
+  }
+
+  table {
+    @media (min-width: 575px) {
+      min-width: 1000px;
+    }
+    
+    thead {
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      background-color: #ececec;
+      tr {
+        th {
+          text-transform: uppercase !important;
+          font-size: 12px !important;
+          font-weight: 700 !important;
+        }
+      }
+    }
+    tbody {
+      tr {
+        box-shadow: none;
+      }
+    }
+    .table-devided tbody tr:hover {
+      box-shadow: none;
+    }
+  }
+  &.noPadding{
+    padding: 0 !important;
+  }
+}

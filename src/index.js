@@ -1,17 +1,26 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+/* eslint-disable global-require */
+import 'react-image-lightbox/style.css';
+import 'react-loading-skeleton/dist/skeleton.css';
+import 'react-perfect-scrollbar/dist/css/styles.css';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import 'dropzone/dist/min/dropzone.min.css';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+import './styles/vendors/bootstrap.min.css';
+import './styles/vendors/bootstrap.rtl.only.min.css';
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+import { getCurrentColor } from './helpers/utils';
+
+const color = getCurrentColor();
+
+const render = () => {
+  if (color === 'dark') {
+    import('./styles/themes/meko.dark.bluenavy.scss').then(() => {
+      require('./AppRenderer');
+    });
+  } else {
+    import('./styles/themes/meko.light.blueyale.scss').then(() => {
+      require('./AppRenderer');
+    });
+  }
+};
+render();
