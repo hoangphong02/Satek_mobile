@@ -435,7 +435,7 @@ export const SaleFNBPage = () => {
     if (dataCart?.some((item) => item?.id === productItem?.id && item?.code === productItem?.code)) {
       const updatedCart = dataCart?.map((item) => ({
         ...item,
-        number: item?.id === productItem?.id && item?.code === productItem?.code ? item.number + numberProduct : item.number,
+        number: item?.id === productItem?.id && item?.code === productItem?.code ? Number(item.number) + Number(numberProduct) : item.number,
       }));
       setDataCart(updatedCart);
     } else {
