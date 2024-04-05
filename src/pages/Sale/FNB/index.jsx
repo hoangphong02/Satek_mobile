@@ -11,27 +11,14 @@ import {
   getAllTableProductRequest,
   getAllTablesSaleRequest,
   getDraftOrdersSaleRequest,
-  // resetCreateDishCancel,
-  // resetCreateMoveKitchenSale,
-  // resetCreateOrderSale,
-  // resetSaveDraftOrderSale,
-  // resetUpdateVatOrderSale,
   saveDraftOrderSaleRequest,
   updateDraftOrderSaleRequest,
-  // updateVatOrderSaleRequest,
   createDishRequest,
-  // resetCreateTableOrdersSale,
+  resetCreateTableOrdersSale,
 } from '~/redux/sale/actions';
-
-// import {
-//   Modal,
-//   ModalBody,
-//   ModalHeader,
-// } from 'reactstrap';
 import { resetCreateRequestPayment } from '~/redux/order/actions';
 
 import { useDebounce } from '~/helpers/hooks';
-// import { optionStatusKitchen } from '~/constants/option';
 import { Realtime } from '~/constants/realtime';
 import { Footer, Header, Main } from './components';
 import { ModalLoadingCreateOrder } from '../Retail/components';
@@ -109,14 +96,6 @@ export const SaleFNBPage = () => {
           'kitchen-dish.created',
           (e) => {
             console.log('e', e);
-            // dispatch(
-            //   getDraftOrdersSaleRequest({
-            //     place_id: placeId,
-            //     shop_id: shop,
-            //     limit: 1000,
-            //     include: 'table, kitchenDishes',
-            //   }),
-            // );
             NotificationManager.success(
               translate('sale.fnb.notify.kitchen.fnb.new-dishes-kitchen'),
               translate('common.notice'),
@@ -136,7 +115,6 @@ export const SaleFNBPage = () => {
 
   useEffect(() => {
     if (isCreateRequestPaymentSuccess) {
-      // setIsCallApi(true);
       dispatch(resetCreateRequestPayment());
       NotificationManager.success(
         translate('sale.send.request.payment-success'),
@@ -147,7 +125,6 @@ export const SaleFNBPage = () => {
         '',
       );
     } else if (isCreateRequestPaymentFailure) {
-      // setIsCallApi(true);
       dispatch(resetCreateRequestPayment());
       NotificationManager.error(
         translate('sale.send.request.payment-failure'),
@@ -161,7 +138,7 @@ export const SaleFNBPage = () => {
   }, [isCreateRequestPaymentSuccess, isCreateRequestPaymentFailure]);
 
   useEffect(() => {
-    if ((shop && placeId) || isCreateTableOrderSaleSuccess) {
+    if ((shop && placeId)) {
       const payload = {
         shop_id: shop,
         place_id: placeId,
@@ -170,7 +147,7 @@ export const SaleFNBPage = () => {
       };
       dispatch(getDraftOrdersSaleRequest(payload));
     }
-  }, [shop, placeId, isCreateTableOrderSaleSuccess]);
+  }, [shop, placeId]);
 
   useEffect(() => {
     if (shop > 0) {
@@ -776,7 +753,7 @@ export const SaleFNBPage = () => {
   //     resolve(); // Đánh dấu rằng đã hoàn tất việc cập nhật tableActive
   //   });
   // };
-  const handleUpdateDraftOrder = async () => {
+  const handleUpdateDraftOrder = () => {
     const productCreateOrder = [];
     dataCart?.map((item) => {
       productCreateOrder.push({
@@ -858,20 +835,40 @@ export const SaleFNBPage = () => {
   };
 
   const handleRequestToCashier = async () => {
-    await handleUpdateDraftOrder();
-    const payload = {
-      shop_id: Number(shop),
-      order_id: getDraftOrdersSaleState?.data?.find(
-        (order) => order.name === nameTableActive,
-      )?.id,
-      items: tableActive.products?.map((item) => ({
-        order_item_id: item?.id,
-      })),
-      note: 'Yêu cầu gọi món',
-    };
-    dispatch(createDishRequest(payload));
-    console.log('payload', payload);
+    handleUpdateDraftOrder();
   };
+  useEffect(() => {
+    if (isUpdateDraftOrderSaleSuccess) {
+      const payload = {
+        shop_id: Number(shop),
+        order_id: getDraftOrdersSaleState?.data?.find(
+          (order) => order.name === nameTableActive,
+        )?.id,
+        items: tableActive.products?.map((item) => ({
+          order_item_id: item?.id,
+        })),
+        note: 'Yêu cầu gọi món',
+      };
+      dispatch(createDishRequest(payload));
+    }
+  }, [isUpdateDraftOrderSaleSuccess, tableActive]);
+
+  useEffect(() => {
+    if (isCreateTableOrderSaleSuccess) {
+      const payload = {
+        shop_id: Number(shop),
+        order_id: getDraftOrdersSaleState?.data?.find(
+          (order) => order.name === nameTableActive,
+        )?.id,
+        items: tableActive.products?.map((item) => ({
+          order_item_id: item?.id,
+        })),
+        note: 'Yêu cầu gọi món',
+      };
+      dispatch(createDishRequest(payload));
+      dispatch(resetCreateTableOrdersSale());
+    }
+  }, [tableActive]);
 
   useEffect(() => {
     if (isUpdateDraftOrderSaleSuccess) {
@@ -895,20 +892,6 @@ export const SaleFNBPage = () => {
           include: 'table, kitchenDishes',
         }),
       );
-      const productsArr = [];
-      if (idTable) {
-        getDraftOrdersSaleState?.data
-          ?.find(
-            (item) => item?.name
-              === getAllTablesSaleState?.data?.find(
-                (table) => Number(table?.id) === Number(idTable),
-              )?.name,
-          )
-          ?.items?.data?.map((pro) => {
-            productsArr.push(pro);
-          });
-      }
-      setProductTableActive(productsArr);
     }
   }, [isCreateTableOrderSaleSuccess]);
 
@@ -923,36 +906,12 @@ export const SaleFNBPage = () => {
         notify: tableActive?.notify,
       });
     }
-  }, [groupId, idTable, productsTableActive, getDraftOrdersSaleState]);
+  }, [groupId, idTable, productsTableActive]);
 
   console.log('productTableActive', productsTableActive);
 
-  // Đang lỗi khi tạo đơn mới rồi gửi
-  useEffect(() => {
-    if (tableActive?.products?.length) {
-      if (tableActive?.products?.length >= productsTableActive?.length) {
-        const payloadTimeout = setTimeout(() => {
-          const payload = {
-            shop_id: Number(shop),
-            order_id: getDraftOrdersSaleState?.data?.find(
-              (order) => order.name === nameTableActive,
-            )?.id,
-            items: tableActive.products?.map((item) => ({
-              order_item_id: item?.id,
-            })),
-            note: 'Yêu cầu gọi món',
-          };
-          dispatch(createDishRequest(payload));
-          console.log('payload', payload);
-        }, 500);
-        return () => clearTimeout(payloadTimeout);
-      }
-    }
-  }, [tableActive?.products?.length, productsTableActive]);
-
   useEffect(() => {
     if (isCreateDishRequestSuccess) {
-      // setIsCallApi(true);
       NotificationManager.success(
         translate('sale.send.dish.request.payment-success'),
         translate('common.notice'),
