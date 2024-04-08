@@ -638,7 +638,7 @@ export const SaleFNBPage = () => {
           number:
             item?.id === productData?.id
             && item?.code === productData?.code
-              ? item.number + 1
+              ? Number(item.number) + 1
               : item.number,
         };
         return result;
@@ -649,7 +649,7 @@ export const SaleFNBPage = () => {
             number:
               item?.id === productData?.id
               && item?.code === productData?.code
-                ? item.number - 1
+                ? Number(item.number) - 1
                 : item.number,
           };
           return result;
