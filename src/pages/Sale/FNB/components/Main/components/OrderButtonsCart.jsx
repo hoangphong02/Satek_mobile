@@ -29,7 +29,7 @@ export const OrderButtonsCart = memo(
           </Button>
           <Button onClick={handleRequestPayment}>
             <i className="iconsminds-coins-2" />
-            {translate('sale.fnb.btn-payment')}
+            {translate('sale.fnb.btn-cancel')}
           </Button>
         </div>
       </div>

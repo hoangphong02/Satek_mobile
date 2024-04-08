@@ -75,6 +75,7 @@ export const ColLeft = memo(
             handleAddProductToOrder={handleAddProductToOrder}
             getAllTableProductsSaleState={getAllTableProductsSaleState}
             handleSeeCart={handleSeeCart}
+            dataCart={dataCart}
           />
         ) : tabActive === 'order' ? (
           <ColRight
@@ -149,7 +150,7 @@ const TabTable = memo(
 );
 
 const TabMenu = memo(({
-  filterMenu, handleAddProductToOrder, getAllTableProductsSaleState, handleSeeCart,
+  filterMenu, handleAddProductToOrder, getAllTableProductsSaleState, handleSeeCart, dataCart,
 }) => (
   <div className="menu-wrapper">
     <div className="menu-inner">
@@ -163,7 +164,7 @@ const TabMenu = memo(({
           />
         ))}
     </div>
-    <OrderButtonsLeftMenu handleSeeCart={handleSeeCart} />
+    <OrderButtonsLeftMenu handleSeeCart={handleSeeCart} dataCart={dataCart} />
   </div>
 ));
 

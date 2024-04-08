@@ -162,6 +162,7 @@ const vnLangSale = {
   'sale.fnb.btn-notify': 'Thông báo',
   'sale.fnb.btn-order-food': 'Gọi món',
   'sale.fnb.notify-success': 'Thu ngân đã nhận được thông báo',
+  'sale.fnb.notify-update-error': 'Bạn không có sản phẩm trong giỏ hàng',
   'sale.fnb.form-payment.btn.note': 'Ghi chú',
   'sale.fnb.form-payment.btn.vat': 'Thêm VAT',
   'sale.fnb.form-payment.btn.decoupling': 'Tách ghép',
@@ -224,6 +225,8 @@ const vnLangSale = {
   'sale.fnb.notify-error': 'Xóa món ăn không thành công do đã được gửi xuống bếp. Liên hệ nhân viên để được hỗ trợ',
   'sale.fnb.notify.kitchen.fnb.new-dishes-kitchen': 'Món ăn của bạn đã được gửi xuống bếp',
   'sale.add-cart-success': 'Thêm vào giỏ hàng thành công',
+  'sale.fnb.btn-cancel': 'Hủy bỏ',
+
 };
 
 export default vnLangSale;

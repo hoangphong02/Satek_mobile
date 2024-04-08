@@ -860,6 +860,8 @@ $color-background: #f1f1f1;
 
                             p {
                                 font-size: 13px;
+                                height: 20px;
+                                overflow: hidden;
                                 margin-bottom: 0;
 
                                 &.name {

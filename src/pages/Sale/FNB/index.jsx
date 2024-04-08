@@ -86,17 +86,14 @@ export const SaleFNBPage = () => {
   const shop = urlParams.get('shop');
   const idTable = urlParams.get('idTable');
   const placeId = urlParams.get('placeId');
-  console.log('dataCart', dataCart);
   // real time
   useEffect(() => {
     if (configState) {
       if (Realtime) {
-        Realtime.join(`shop.${shop}.${placeId}`, (e) => {
-          console.log('e', e);
+        Realtime.join(`shop.${shop}.${placeId}`, () => {
         }).on(
           'kitchen-dish.created',
-          (e) => {
-            console.log('e', e);
+          () => {
             NotificationManager.success(
               translate('sale.fnb.notify.kitchen.fnb.new-dishes-kitchen'),
               translate('common.notice'),
@@ -286,8 +283,6 @@ export const SaleFNBPage = () => {
     }
     setIsSaveDraftOrder(false);
   };
-
-  console.log('tableActive', tableActive);
 
   const handleChangeNote = (id, note, tableData) => {
     setOrdersList({
@@ -673,7 +668,6 @@ export const SaleFNBPage = () => {
       }
     });
     const filteredProducts = updateProducts.filter((item) => item !== null);
-    console.log('filteredProducts', filteredProducts);
     setDataCart(filteredProducts);
   };
   // const handleUpdateDraftOrder = () => {
@@ -753,69 +747,80 @@ export const SaleFNBPage = () => {
   //   });
   // };
   const handleUpdateDraftOrder = () => {
-    const productCreateOrder = [];
-    dataCart?.map((item) => {
-      productCreateOrder.push({
-        id: item?.id,
-        code: item?.code,
-        number: item?.number,
+    if (dataCart?.length > 0) {
+      const productCreateOrder = [];
+      dataCart?.map((item) => {
+        productCreateOrder.push({
+          id: item?.id,
+          code: item?.code,
+          number: item?.number,
+        });
       });
-    });
-    const arrUpdate = [].concat(
-      tableActive?.products?.map((item) => ({
-        id: item?.product.id,
-        code: item?.product?.code,
-        number: item?.number,
-      })),
-      dataCart?.map((item) => ({
-        id: item?.id,
-        code: item?.code,
-        number: item?.number,
-      })),
-    );
-    const mergedData = new Map();
-    arrUpdate.forEach((item) => {
-      const existingItem = mergedData.get(item.id);
-      if (existingItem) {
-        mergedData.set(item.id, {
-          ...existingItem,
-          number: existingItem.number + item.number,
-        });
-      } else {
-        mergedData.set(item.id, {
-          ...item,
-        });
-      }
-    });
-    const dataMerge = Array.from(mergedData.values());
-    const payload = {
-      type: 'table',
-      products: dataMerge,
-      place_id: Number(placeId),
-      payment: 'cash',
-      table_id: Number(idTable),
-      shop_id: Number(shop),
-    };
-    if (getDraftOrdersSaleState?.data?.find(
-      (order) => order.name === nameTableActive,
-    )) {
-      dispatch(updateDraftOrderSaleRequest({
-        id: getDraftOrdersSaleState?.data?.find(
-          (order) => order.name === nameTableActive,
-        )?.id,
-        data: payload,
-      }));
-      setDataCart([]);
-    } else {
+      const arrUpdate = [].concat(
+        tableActive?.products?.map((item) => ({
+          id: item?.product.id,
+          code: item?.product?.code,
+          number: item?.number,
+        })),
+        dataCart?.map((item) => ({
+          id: item?.id,
+          code: item?.code,
+          number: item?.number,
+        })),
+      );
+      const mergedData = new Map();
+      arrUpdate.forEach((item) => {
+        const existingItem = mergedData.get(item.id);
+        if (existingItem) {
+          mergedData.set(item.id, {
+            ...existingItem,
+            number: existingItem.number + item.number,
+          });
+        } else {
+          mergedData.set(item.id, {
+            ...item,
+          });
+        }
+      });
+      const dataMerge = Array.from(mergedData.values());
       const payload = {
         type: 'table',
-        products: productCreateOrder,
+        products: dataMerge,
         place_id: Number(placeId),
         payment: 'cash',
         table_id: Number(idTable),
+        shop_id: Number(shop),
       };
-      dispatch(createTableOrdersSaleRequest(payload));
-      setDataCart([]);
+      if (getDraftOrdersSaleState?.data?.find(
+        (order) => order.name === nameTableActive,
+      )) {
+        dispatch(updateDraftOrderSaleRequest({
+          id: getDraftOrdersSaleState?.data?.find(
+            (order) => order.name === nameTableActive,
+          )?.id,
+          data: payload,
+        }));
+        setDataCart([]);
+      } else {
+        const payload = {
+          type: 'table',
+          products: productCreateOrder,
+          place_id: Number(placeId),
+          payment: 'cash',
+          table_id: Number(idTable),
+        };
+        dispatch(createTableOrdersSaleRequest(payload));
+        setDataCart([]);
+      }
+    } else {
+      NotificationManager.error(
+        translate('sale.fnb.notify-update-error'),
+        translate('common.notice'),
+        1500,
+        null,
+        null,
+        '',
+      );
     }
   };
 
@@ -907,8 +912,6 @@ export const SaleFNBPage = () => {
     }
   }, [groupId, idTable, productsTableActive]);
 
-  console.log('productTableActive', productsTableActive);
-
   useEffect(() => {
     if (isCreateDishRequestSuccess) {
       NotificationManager.success(
@@ -927,7 +930,8 @@ export const SaleFNBPage = () => {
   };
 
   const handleRequestPayment = () => {
-    setTabActive('order');
+    setDataCart([]);
+    setTabActive('menu');
   };
 
   return (

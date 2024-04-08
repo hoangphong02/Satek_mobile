@@ -150,6 +150,8 @@ const usLangSale = {
   'sale.fnb.btn-payment': 'request payment',
   'sale.add-cart-success': 'add cart success',
   'sale.fnb.btn-see-cart': 'See cart',
+  'sale.fnb.notify-update-error': 'You have not product in cart',
+  'sale.fnb.btn-cancel': 'Cancel',
 
 };
 
