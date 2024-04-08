@@ -86,6 +86,7 @@ export const SaleFNBPage = () => {
   const shop = urlParams.get('shop');
   const idTable = urlParams.get('idTable');
   const placeId = urlParams.get('placeId');
+  console.log('dataCart', dataCart);
   // real time
   useEffect(() => {
     if (configState) {
@@ -667,14 +668,12 @@ export const SaleFNBPage = () => {
         if (item?.id === productData?.id) {
           return null;
         } else {
-          const result = {
-            item,
-          };
-          return result;
+          return item;
         }
       }
     });
     const filteredProducts = updateProducts.filter((item) => item !== null);
+    console.log('filteredProducts', filteredProducts);
     setDataCart(filteredProducts);
   };
   // const handleUpdateDraftOrder = () => {
