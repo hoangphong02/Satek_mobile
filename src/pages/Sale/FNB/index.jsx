@@ -152,6 +152,7 @@ export const SaleFNBPage = () => {
       const payload = {
         shop_id: shop,
       };
+      payload.limit = 1000;
       dispatch(getAllTablesSaleRequest(payload));
     }
   }, [shop]);
